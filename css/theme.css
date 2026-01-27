@@ -2,9 +2,11 @@
     /* Base theme variables */
     --primary-bg-color: #121212;
     --secondary-bg-color: #eeeeee;
+    --bg-active-color: #f1f1f1;
     --text-color: #f1f1f1;
     --button-bg-color: #9d2c2c;
     --button-text-color: #efefef;
+
 
     /* Padding Variables */
     --padding-sm: 0.5rem;
