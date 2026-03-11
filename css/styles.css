@@ -60,6 +60,7 @@ main section .right{
   border-radius: var(--border-radius-sm);
   background-color: var(--bg-active-color);
   color: var(--text-active-color);
+  cursor: pointer;
 }
 
 #reset-btn {
@@ -135,7 +136,7 @@ main section .right .filter input::-webkit-slider-thumb{
 }
 
 canvas{
-  background-color: red;
   max-width: 100%;
   max-height: 80vh;
+  display: none;
 }

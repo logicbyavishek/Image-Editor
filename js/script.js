@@ -1,59 +1,53 @@
 const filters = {
-  Brightness: {
+  brightness: {
     min: 0,
     max: 200,
     value: 100,
     unit: "%",
   },
-  Contrast: {
+  contrast: {
     min: 0,
     max: 200,
     value: 100,
     unit: "%",
   },
-  Exposure: {
-    min: -100,
-    max: 100,
-    value: 0,
-    unit: "%",
-  },
-  Saturation: {
+  saturation: {
     min: 0,
     max: 200,
     value: 100,
     unit: "%",
   },
-  HueRotation: {
+  hueRotation: {
     min: 0,
     max: 360,
     value: 0,
     unit: "deg",
   },
-  Blur: {
+  blur: {
     min: 0,
     max: 20,
     value: 0,
     unit: "px",
   },
-  Grayscale: {
+  grayscale: {
     min: 0,
     max: 100,
     value: 0,
     unit: "%",
   },
-  Sepia: {
+  sepia: {
     min: 0,
     max: 100,
     value: 0,
     unit: "%",
   },
-  Opacity: {
+  opacity: {
     min: 0,
     max: 100,
     value: 100,
     unit: "%",
   },
-  Invert: {
+  invert: {
     min: 0,
     max: 100,
     value: 0,
@@ -86,18 +80,28 @@ function createFilterElement(name,unit="%",value,min,max){
     div.appendChild(p)
     div.appendChild(input)
 
+    input.addEventListener("input",(e)=>{
+      filters[name].value=input.value
+      applyFilters(name,unit)
+    })
+
     return div
 }
 
-Object.keys(filters).forEach(key=>{
-    const filterElement = createFilterElement(key,filters[key].unit,filters[key].value,filters[key].min,filters[key].max)
-    filtersContainers.appendChild(filterElement)
-})
+function createfilters(){
+  Object.keys(filters).forEach(key=>{
+      const filterElement = createFilterElement(key,filters[key].unit,filters[key].value,filters[key].min,filters[key].max)
+      filtersContainers.appendChild(filterElement)
+  })
+}
+
+createfilters()
 
 imageInput.addEventListener("change",(event)=>{
     file = event.target.files[0]
     const imagePlaceHolder = document.querySelector(".placeholder")
     imagePlaceHolder.style.display = "none"
+    imageCanvas.style.display="block"
 
     const img = new Image()
     img.src = URL.createObjectURL(file)
@@ -109,3 +113,9 @@ imageInput.addEventListener("change",(event)=>{
         canvasCTX.drawImage(img,0,0)
     }
 })
+
+function applyFilters(name,unit){ 
+  canvasCTX.clearRect(0,0,imageCanvas.width,imageCanvas.height)
+  canvasCTX.filter=`${name}(${filters[name].value}${unit})`.trim()
+  canvasCTX.drawImage(image,0,0)
+}
